@@ -1,0 +1,45 @@
+type Product {
+    id: ID!
+    name: String!
+    description: String
+    price: Float!
+    size: String
+    stock: Int!
+    salesCount: Int!
+}
+type Customer {
+    id: ID!
+    name: String!
+    email: String!
+    address: String
+}
+
+type OrderStatus {
+    id: ID!
+    status: String!
+}
+
+type Query {
+    allProducts: [Product]
+    productById(id: ID!): Product
+
+    allCustomers: [Customer]
+    customerById(id: ID!): Customer
+
+    allOrderStatuses: [OrderStatus]
+    orderStatusById(id: ID!): OrderStatus
+}
+
+type Mutation {
+    createProduct(name: String!, description: String, price: Float!, size: String, stock: Int!, salesCount: Int!): Product
+    updateProduct(id: ID!, name: String!, description: String, price: Float!, size: String, stock: Int!, salesCount: Int!): Product
+    deleteProduct(id: ID!): Boolean
+
+    createCustomer(name: String!, email: String!, address: String): Customer
+    updateCustomer(id: ID!, name: String!, email: String!, phone: String): Customer
+    deleteCustomer(id: ID!): Boolean
+
+    createOrderStatus(status: String!): OrderStatus
+    updateOrderStatus(id: ID!, status: String!): OrderStatus
+    deleteOrderStatus(id: ID!): Boolean
+}

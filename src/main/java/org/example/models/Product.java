@@ -15,16 +15,19 @@ public class Product {
     private double price;
     private String size;
     private int stock;
+    private int salesCount;
 
     public Product() {}
 
-    public Product(Long id, String name, String description, double price, String size, int stock) {
+    public Product(Long id, String name, String description, double price, String size, int stock, int salesCount) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.size = size;
         this.stock = stock;
+        this.salesCount = salesCount;
+
     }
 
     public Long getId() { return id; }
@@ -44,4 +47,8 @@ public class Product {
 
     public int getStock() { return stock; }
     public void setStock(int stock) { this.stock = stock; }
-}
+
+    public int getSalesCount() { return salesCount; }
+    public void setSalesCount(int salesCount) { this.salesCount = salesCount; }
+    }
+

@@ -29,11 +29,15 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Product item1 = new Product(null, "T-shirt", "Basic white T-shirt", 19.99, "M", 50);
-        Product item2 = new Product(null, "Jeans", "Blue denim jeans", 39.99, "L", 30);
+        Product item1 = new Product(null, "T-shirt", "Basic white T-shirt", 19.99, "M", 10,100);
+        Product item2 = new Product(null, "Jeans", "Blue denim jeans", 39.99, "L", 30,200);
+        Product item3 = new Product(null, "Jeans", "Blue denim jeans", 39.99, "L", 50,20);
+        Product item4 = new Product(null, "T-shirt", "Basic white T-shirt", 200, "M", 10,100);
 
         Product savedItem1 = productService.createProduct(item1);
         Product savedItem2 = productService.createProduct(item2);
+        Product savedItem3 = productService.createProduct(item3);
+        Product savedItem4 = productService.createProduct(item4);
 
         OrderStatus pendingStatus = new OrderStatus(null, "Pending");
         OrderStatus confirmedStatus = new OrderStatus(null, "Confirmed");

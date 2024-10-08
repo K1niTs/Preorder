@@ -14,15 +14,12 @@ public class ProductService {
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
-
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
-
     public Optional<Product> getProductById(Long id) {
         return productRepository.findById(id);
     }
-
     public Product createProduct(Product product) {
         return productRepository.save(product);
     }
@@ -35,10 +32,19 @@ public class ProductService {
         existingProduct.setPrice(updatedProduct.getPrice());
         existingProduct.setSize(updatedProduct.getSize());
         existingProduct.setStock(updatedProduct.getStock());
+        existingProduct.setSalesCount(updatedProduct.getSalesCount());
         return productRepository.save(existingProduct);
     }
 
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
+
+    public List<Product> getProductsByPriceRange(double minPrice, double maxPrice) {
+        return productRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+    public List<Product> getTopSellingProducts() {
+        return productRepository.findTopSellingProducts();
+    }
+
 }

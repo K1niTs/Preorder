@@ -4,6 +4,7 @@ import org.example.models.Product;
 import org.springframework.web.bind.annotation.*;
 import org.example.services.DTO.ProductDTO;
 import org.example.services.ProductService;
+import org.example.messaging.RabbitMQSender;
 
 import java.util.List;
 
@@ -12,9 +13,11 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final RabbitMQSender rabbitMQSender;  // Добавляем отправитель RabbitMQ
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, RabbitMQSender rabbitMQSender) {
         this.productService = productService;
+        this.rabbitMQSender = rabbitMQSender;
     }
 
     @GetMapping
@@ -58,6 +61,10 @@ public class ProductController {
                 productDTO.getSalesCount()
         );
         Product savedProduct = productService.createProduct(product);
+
+        // Отправка сообщения в очередь RabbitMQ после создания продукта
+        rabbitMQSender.sendMessage(savedProduct);
+
         return new ProductDTO(
                 savedProduct.getId(),
                 savedProduct.getName(),
@@ -81,6 +88,10 @@ public class ProductController {
                 productDTO.getSalesCount()
         );
         Product updatedProduct = productService.updateProduct(id, product);
+
+        // Отправка сообщения в очередь RabbitMQ после обновления продукта
+        rabbitMQSender.sendMessage(updatedProduct);
+
         return new ProductDTO(
                 updatedProduct.getId(),
                 updatedProduct.getName(),
@@ -95,6 +106,10 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
+
+        // Отправка сообщения в очередь RabbitMQ после удаления продукта
+        Product deletedProduct = new Product(id, null, null, 0, null, 0, 0);
+        rabbitMQSender.sendMessage(deletedProduct);
     }
 
     // Маршрут для получения продуктов в ценовом диапазоне
